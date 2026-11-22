@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pizzeria Au Feu De Bois — Menu & Commande</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="top-bar">
+        <span>🔥 Pizzeria Au Feu De Bois</span>
+        <span>📞 Le Blanc Mesnil : 01 48 69 16 57 / 07 86 60 25 07 • Montreuil : 09 80 91 10 66</span>
+    </div>
+
+    <header>
+        <div class="logo">AU FEU DE BOIS <span>PIZZERIA</span></div>
+        <nav>
+            <a href="#menu">La Carte</a>
+            <a href="#infos">Infos & Contact</a>
+        </nav>
+        <button type="button" class="cart-toggle" onclick="toggleCart()">
+            Panier (<span id="cart-count">0</span>)
+        </button>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Pizzas Cuites au Feu de Bois</h1>
+            <p>93 recettes préparées à la commande • Livraison gratuite dès 25.00€</p>
+            <a href="#menu" class="btn-primary">Découvrir la carte</a>
+        </div>
+    </section>
+
+    <section id="menu" class="menu-section">
+        <h2>Notre Carte</h2>
+
+        <div class="filters">
+            <button type="button" class="filter-btn active" onclick="filterMenu('all', this)">Tout (93)</button>
+            <button type="button" class="filter-btn" onclick="filterMenu('pizzas', this)">Pizzas</button>
+            <button type="button" class="filter-btn" onclick="filterMenu('panizzas', this)">Panizzas & Croques</button>
+            <button type="button" class="filter-btn" onclick="filterMenu('snacks', this)">Snacks & Frites</button>
+            <button type="button" class="filter-btn" onclick="filterMenu('plats', this)">Pâtes, Salades & Gratins</button>
+            <button type="button" class="filter-btn" onclick="filterMenu('desserts', this)">Desserts & Boissons</button>
+        </div>
+
+        <div class="search-box">
+            <input
+                type="text"
+                id="menu-search"
+                placeholder="Rechercher un plat ou un ingrédient (ex: saumon, chèvre, bbq, gratin)..."
+                oninput="handleSearch(this.value)"
+                aria-label="Rechercher dans le menu"
+            >
+            <button type="button" id="clear-search" class="clear-search-btn" onclick="clearSearch()" style="display: none;">✕</button>
+        </div>
+
+        <div id="menu-grid" class="menu-grid"></div>
+    </section>
+
+    <aside id="cart-drawer" class="cart-drawer">
+        <div class="cart-header">
+            <h3>Votre Panier</h3>
+            <button type="button" class="close-cart" onclick="toggleCart()" aria-label="Fermer le panier">✕</button>
+        </div>
+        <div id="cart-items" class="cart-items">
+            <p class="empty-msg">Votre panier est vide.</p>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total :</span>
+                <span id="cart-total">0.00€</span>
+            </div>
+            <p id="delivery-note" class="delivery-note">Livraison gratuite à partir de 25.00€</p>
+
+            <form id="checkout-form" class="checkout-form" onsubmit="submitOrder(event)">
+                <select id="branch-select" aria-label="Choisir la pizzeria">
+                    <option value="Le Blanc Mesnil">📍 Le Blanc Mesnil</option>
+                    <option value="Montreuil">📍 Montreuil</option>
+                </select>
+
+                <div class="order-type-group">
+                    <label class="radio-option">
+                        <input type="radio" name="orderType" value="Livraison" checked onchange="toggleAddressField()">
+                        <span>Livraison</span>
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="orderType" value="À emporter" onchange="toggleAddressField()">
+                        <span>À emporter</span>
+                    </label>
+                </div>
+
+                <input
+                    type="text"
+                    id="client-name"
+                    placeholder="Votre nom complet *"
+                    required
+                >
+
+                <input
+                    type="tel"
+                    id="client-phone"
+                    placeholder="Numéro de téléphone *"
+                    required
+                >
+
+                <input
+                    type="text"
+                    id="client-address"
+                    placeholder="Adresse de livraison complète *"
+                    required
+                >
+
+                <textarea
+                    id="client-notes"
+                    rows="2"
+                    placeholder="Remarques (ex: sans oignons, code porte...)"
+                ></textarea>
+
+                <button type="submit" class="checkout-btn">Confirmer la commande</button>
+            </form>
+
+            <div id="order-confirmation" class="order-confirmation" style="display: none;"></div>
+        </div>
+    </aside>
+
+    <footer id="infos">
+        <div class="footer-grid">
+            <div>
+                <h3>Pizzeria Au Feu De Bois</h3>
+                <p>Pizzas artisanales, panizzas, croque-monsieur, snacks, pâtes, salades et gratins.</p>
+                <p class="small-note">Livraison gratuite dès 25.00€ d'achat.</p>
+            </div>
+            <div>
+                <h3>Le Blanc Mesnil</h3>
+                <p>Tél : 01 48 69 16 57 / 07 86 60 25 07</p>
+            </div>
+            <div>
+                <h3>Montreuil</h3>
+                <p>Tél : 09 80 91 10 66</p>
+            </div>
+        </div>
+        <p class="copyright">© 2026 Pizzeria Au Feu De Bois. Tous droits réservés.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
